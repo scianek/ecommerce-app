@@ -4,6 +4,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import * as Joi from "joi";
 import { ProductsModule } from "./products/products.module";
 import { Product } from "./products/entities/product.entity";
+import { CustomersModule } from "./customers/customers.module";
+import { Customer } from "./customers/entities/customer.entity";
 
 @Module({
     imports: [
@@ -24,9 +26,10 @@ import { Product } from "./products/entities/product.entity";
             password: process.env.DB_PASS,
             database: process.env.DB_NAME,
             synchronize: process.env.NODE_ENV !== "prod",
-            entities: [Product],
+            entities: [Product, Customer],
         }),
         ProductsModule,
+        CustomersModule,
     ],
 })
 export class AppModule {}
