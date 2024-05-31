@@ -15,6 +15,7 @@ import { Category } from "./categories/entities/category.entity";
 @Module({
     imports: [
         ConfigModule.forRoot({
+            envFilePath: ".test.env",
             validationSchema: Joi.object({
                 DB_HOST: Joi.string().required(),
                 DB_PORT: Joi.number().port().required(),
