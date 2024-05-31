@@ -4,12 +4,14 @@ import { Product } from "./entities/product.entity";
 import { Repository } from "typeorm";
 import { CreateProductDto } from "./dtos/create-product.dto";
 import { UpdateProductDto } from "./dtos/update-product.dto";
+import { CategoriesService } from "@/categories/categories.service";
 
 @Injectable()
 export class ProductsService {
     constructor(
         @InjectRepository(Product)
         private readonly products: Repository<Product>,
+        private readonly categoriesService: CategoriesService,
     ) {}
 
     getProducts() {
@@ -24,13 +26,24 @@ export class ProductsService {
         return product;
     }
 
-    createProduct(dto: CreateProductDto) {
-        return this.products.save(this.products.create(dto));
+    async createProduct(dto: CreateProductDto) {
+        const category = await this.categoriesService.getCategoryById(
+            dto.categoryId,
+        );
+        return this.products.save(this.products.create({ ...dto, category }));
     }
 
-    async updateProduct(id: number, dto: UpdateProductDto) {
+    async updateProduct(
+        id: number,
+        { categoryId, ...productProps }: UpdateProductDto,
+    ) {
         await this.getProductById(id);
-        return this.products.update({ id }, dto);
+        if (categoryId) {
+            const category =
+                await this.categoriesService.getCategoryById(categoryId);
+            return this.products.update({ id }, { ...productProps, category });
+        }
+        return this.products.update({ id }, productProps);
     }
 
     async deleteProduct(id: number) {

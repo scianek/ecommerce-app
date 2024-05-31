@@ -9,6 +9,8 @@ import { Customer } from "./customers/entities/customer.entity";
 import { OrdersModule } from "./orders/orders.module";
 import { Order } from "./orders/entities/order.entity";
 import { OrderDetails } from "./orders/entities/order-details.entity";
+import { CategoriesModule } from "./categories/categories.module";
+import { Category } from "./categories/entities/category.entity";
 
 @Module({
     imports: [
@@ -29,11 +31,12 @@ import { OrderDetails } from "./orders/entities/order-details.entity";
             password: process.env.DB_PASS,
             database: process.env.DB_NAME,
             synchronize: process.env.NODE_ENV !== "prod",
-            entities: [Product, Customer, Order, OrderDetails],
+            entities: [Product, Customer, Order, OrderDetails, Category],
         }),
         ProductsModule,
         CustomersModule,
         OrdersModule,
+        CategoriesModule,
     ],
 })
 export class AppModule {}

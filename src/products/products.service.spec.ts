@@ -3,6 +3,7 @@ import { ProductsService } from "./products.service";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { Product } from "./entities/product.entity";
 import { NotFoundException } from "@nestjs/common";
+import { CategoriesService } from "@/categories/categories.service";
 
 const mockProduct = new Product();
 const mockProductRepository = {
@@ -12,6 +13,9 @@ const mockProductRepository = {
     save: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
+};
+const mockCategoriesService = {
+    getCategoryById: jest.fn(),
 };
 
 describe("ProductsService", () => {
@@ -24,6 +28,10 @@ describe("ProductsService", () => {
                 {
                     provide: getRepositoryToken(Product),
                     useValue: mockProductRepository,
+                },
+                {
+                    provide: CategoriesService,
+                    useValue: mockCategoriesService,
                 },
             ],
         }).compile();
@@ -71,8 +79,10 @@ describe("ProductsService", () => {
         it("should create a product", async () => {
             mockProductRepository.create.mockReturnValue(mockProduct);
             mockProductRepository.save.mockResolvedValue(mockProduct);
-            const createdProduct =
-                await productsService.createProduct(mockProduct);
+            const createdProduct = await productsService.createProduct({
+                ...mockProduct,
+                categoryId: 1,
+            });
             expect(createdProduct).toEqual(mockProduct);
             expect(mockProductRepository.create).toHaveBeenCalled();
         });
