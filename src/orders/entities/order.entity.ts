@@ -9,11 +9,11 @@ export const OrderStatus = {
     CANCELLED: "Cancelled",
 } as const;
 
-type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
 
 @Entity()
 export class Order extends CoreEntity {
-    @ManyToOne(() => Customer, customer => customer.orders)
+    @ManyToOne(() => Customer, customer => customer.orders, { eager: true })
     @JoinColumn({ name: "customerId" })
     customer: Customer;
 

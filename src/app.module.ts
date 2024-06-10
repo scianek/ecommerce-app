@@ -12,6 +12,7 @@ import { OrderDetails } from "./orders/entities/order-details.entity";
 import { CategoriesModule } from "./categories/categories.module";
 import { Category } from "./categories/entities/category.entity";
 import { SeederModule } from './seeder/seeder.module';
+import { ReportingModule } from './reporting/reporting.module';
 
 @Module({
     imports: [
@@ -40,6 +41,7 @@ import { SeederModule } from './seeder/seeder.module';
         OrdersModule,
         CategoriesModule,
         SeederModule,
+        ReportingModule,
     ],
 })
 export class AppModule {}
