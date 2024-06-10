@@ -12,12 +12,3 @@ export class Category extends CoreEntity {
     @OneToMany(() => Product, product => product.category)
     products: Product[];
 }
-
-// @Entity()
-// export class Product extends CoreEntity {
-//     // ...existing fields...
-//
-//     @ManyToOne(() => Category, category => category.products)
-//     @JoinColumn({ name: "categoryId" })
-//     category: Category;
-// }

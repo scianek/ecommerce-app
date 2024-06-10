@@ -9,6 +9,7 @@ import {
 } from "@nestjs/common";
 import { OrdersService } from "./orders.service";
 import { CreateOrderDto } from "./dtos/create-order.dto";
+import { UpdateOrderDto } from "./dtos/update-order.dto";
 
 @Controller("orders")
 export class OrdersController {
@@ -32,7 +33,7 @@ export class OrdersController {
     @Patch(":id")
     updateOrder(
         @Param("id") id: number,
-        @Body() createOrderDto: CreateOrderDto,
+        @Body() createOrderDto: UpdateOrderDto,
     ) {
         return this.ordersService.updateOrder(id, createOrderDto);
     }
